@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Email">
+        <input type="text" name="username" placeholder="Benutzername">
+        <input type="password" name="password" placeholder="Passwort">
+        <input type="text" name="svnr" placeholder="Svnr">
+        <input type="datetime-local" name="birthday" id="birthday" value="{{ patient.birthday|date:'Y-m-d\TH:i' }}" />
+
+
+        <input type="submit">
+       
+    </form>
+
+    <div>{{ edit_status }}</div>
+ 
+</div>
+
+{% endblock content %}

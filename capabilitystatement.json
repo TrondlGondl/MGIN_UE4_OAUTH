@@ -1,0 +1,58 @@
+{
+  "resourceType": "CapabilityStatement",
+  "status": "active",
+  "date": "2026-01-19",
+  "kind": "instance",
+  "fhirVersion": "5.0.0",
+  "format": ["json"],
+  "software": {
+    "name": "FHIR Patient Portal",
+    "version": "1.0.0"
+  },
+  "implementation": {
+    "description": "FHIR-konformes Behandlungsportal mit CRUD-Endpunkten"
+  },
+  "rest": [
+    {
+      "mode": "server",
+      "resource": [
+        {
+          "type": "Patient",
+          "interaction": [
+            { "code": "create" },
+            { "code": "read" },
+            { "code": "update" },
+            { "code": "delete" }
+          ]
+        },
+        {
+          "type": "Practitioner",
+          "interaction": [
+            { "code": "create" },
+            { "code": "read" },
+            { "code": "update" },
+            { "code": "delete" }
+          ]
+        },
+        {
+          "type": "Medication",
+          "interaction": [
+            { "code": "create" },
+            { "code": "read" },
+            { "code": "update" },
+            { "code": "delete" }
+          ]
+        },
+        {
+          "type": "PlanDefinition",
+          "interaction": [
+            { "code": "create" },
+            { "code": "read" },
+            { "code": "update" },
+            { "code": "delete" }
+          ]
+        }
+      ]
+    }
+  ]
+}

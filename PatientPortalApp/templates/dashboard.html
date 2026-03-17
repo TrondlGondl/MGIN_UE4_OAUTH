@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard-container">
+    <h1>🏥 Dashboard</h1>
+    <hr>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+
+    {% elif user.is_superuser %}
+        <!-- ------------------ ADMIN ------------------ -->
+        <h2>👑 Admin Bereich</h2>
+
+        <form method="post" class="admin-form">
+            {% csrf_token %}
+            <label>Practitioner:</label>
+            <select name="practitioner_id" required>
+                <option value="">-- Wähle Practitioner --</option>
+                {% for practitioner in practitioners %}
+                    <option value="{{ practitioner.id }}">{{ practitioner.user.username }} ({{ practitioner.specialization }})</option>
+                {% endfor %}
+            </select>
+
+            <label>Patient:</label>
+            <select name="patient_id" required>
+                <option value="">-- Wähle Patient --</option>
+                {% for patient in patients %}
+                    <option value="{{ patient.id }}">{{ patient.user.username }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-primary">Zuweisen</button>
+        </form>
+
+        {% if status_message %}
+            <p class="success">{{ status_message }}</p>
+        {% endif %}
+
+
+    {% elif user.is_staff %}
+        <!-- ------------------ PRACTITIONER ------------------ -->
+        <h2>🩺 Practitioner Dashboard</h2>
+
+        {% if practitioner_patients %}
+            {% for patient in practitioner_patients %}
+                <div class="card">
+                    <h3>👤 {{ patient.user.username }}</h3>
+
+                    {% if patient.questionare_completed %}
+                        <p class="completed">✅ Fragebogen ausgefüllt</p>
+                        <details>
+                            <summary>Fragebogen-Antworten anzeigen</summary>
+                            <ul>
+                                {% for question, answer in patient.questionare_data.items %}
+                                    <li><strong>{{ question }}</strong>: {{ answer }}</li>
+                                {% endfor %}
+                            </ul>
+                        </details>
+                    {% else %}
+                        <p class="not-completed">❌ Fragebogen nicht ausgefüllt</p>
+                    {% endif %}
+
+                    <h4>📝 Behandlungsplan</h4>
+                    <form method="post" class="plan-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="assign_plan" value="1">
+                        <input type="hidden" name="patient_id" value="{{ patient.id }}">
+                        <textarea name="treatment_plan" rows="3" placeholder="Behandlungsplan eingeben...">{{ patient.treatment_plan }}</textarea>
+                        <button type="submit" class="btn-primary">Speichern</button>
+                    </form>
+
+                    <div class="chat-section">
+                        <h4>💬 Chat mit {{ patient.user.username }}</h4>
+                        <div class="message-history">
+                            {% for msg in messages_between %}
+                                {% if msg.sender == patient.user or msg.receiver == patient.user %}
+                                    <div class="message {% if msg.sender == user %}sent{% else %}received{% endif %}">
+                                        <strong>{{ msg.sender.username }}:</strong>
+                                        <p>{{ msg.content }}</p>
+                                        <small>{{ msg.timestamp|date:"d.m.Y H:i" }}</small>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <form method="post" class="message-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="send_message" value="1">
+                            <input type="hidden" name="receiver_id" value="{{ patient.user.id }}">
+                            <textarea name="message_text" rows="2" placeholder="Nachricht schreiben..." required></textarea>
+                            <button type="submit" class="btn-primary">Senden</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Keine Patienten zugewiesen.</p>
+        {% endif %}
+
+
+    {% elif user.is_authenticated %}
+        <!-- ------------------ PATIENT ------------------ -->
+        <h2>👤 Patient Dashboard</h2>
+
+        <a href="{% url 'edit_patient' %}" class="btn-secondary">Daten ändern</a>
+
+        {% if assigned_practitioner %}
+            <p class="assigned">🩺 Zugewiesener Practitioner: <strong>{{ assigned_practitioner.user.username }}</strong></p>
+        {% else %}
+            <p class="not-assigned">❌ Kein Practitioner zugewiesen.</p>
+        {% endif %}
+
+        {% if patient_fragebogen %}
+            <p class="completed">✅ Fragebogen abgeschlossen</p>
+        {% else %}
+            <p class="not-completed">❌ Fragebogen noch nicht ausgefüllt</p>
+            <a href="{% url 'fill_questionaire' %}" class="btn-primary">Zum Fragebogen</a>
+        {% endif %}
+
+        {% if treatment_plan %}
+            <div class="treatment-plan">
+                <h3>🩺 Ihr Behandlungsplan</h3>
+                <p>{{ treatment_plan }}</p>
+            </div>
+        {% endif %}
+
+        <div class="message-section">
+            <h3>💬 Nachrichten mit Practitioner</h3>
+            {% if assigned_practitioner %}
+                <div class="message-history">
+                    {% for msg in messages_between %}
+                        <div class="message {% if msg.sender == user %}sent{% else %}received{% endif %}">
+                            <strong>{{ msg.sender.username }}:</strong>
+                            <p>{{ msg.content }}</p>
+                            <small>{{ msg.timestamp|date:"d.m.Y H:i" }}</small>
+                        </div>
+                    {% endfor %}
+                    {% if not messages_between %}
+                        <p>Noch keine Nachrichten vorhanden.</p>
+                    {% endif %}
+                </div>
+
+                <form method="post" class="message-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="send_message" value="1">
+                    <textarea name="message_text" rows="3" placeholder="Nachricht schreiben..." required></textarea>
+                    <button type="submit" class="btn-primary">Senden</button>
+                </form>
+            {% else %}
+                <p>Keine Nachrichten möglich – kein Practitioner zugewiesen.</p>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <!-- ------------------ NICHT EINGELOGGT ------------------ -->
+        <p class="error">❌ Sie sind nicht angemeldet. Bitte loggen Sie sich zuerst ein.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,266 @@
+/* ========== GRUNDLAYOUT ========== */
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f8f9fb;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========== NAVIGATION ========== */
+nav {
+    background-color: #004aad;
+    color: white;
+    padding: 12px 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: #dfe9ff;
+}
+
+/* ========== DASHBOARD CONTAINER ========== */
+.dashboard-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+h1 {
+    color: #004aad;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h2, h3, h4 {
+    color: #004aad;
+}
+
+/* ========== FORMULARE ========== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+input, select, textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #004aad;
+    box-shadow: 0 0 3px rgba(0,74,173,0.3);
+}
+
+/* ========== BUTTONS ========== */
+button, .btn-primary, .btn-secondary {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: #004aad;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #00327d;
+}
+
+.btn-secondary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #0069d9;
+}
+
+/* ========== STATUS / ALERTS ========== */
+.success {
+    color: #0a7f1c;
+    background: #e6f9eb;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.error {
+    color: #b30000;
+    background: #fdeaea;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* ========== CARDS ========== */
+.card {
+    background: #fafbfc;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    margin-bottom: 25px;
+}
+
+.card h3 {
+    color: #2a5d9f;
+}
+
+/* ========== FRAGEBOGEN ========== */
+.question-block {
+    margin-bottom: 25px;
+}
+
+.question-block p {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.question-block label {
+    display: block;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+/* ========== DETAILS (Antworten anzeigen) ========== */
+details summary {
+    cursor: pointer;
+    color: #004aad;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+details summary:hover {
+    text-decoration: underline;
+}
+
+/* ========== TREATMENT PLAN ========== */
+.treatment-plan, .treatment-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9ff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+.treatment-plan h3, .treatment-section h3 {
+    margin-bottom: 10px;
+    color: #004aad;
+}
+
+/* ========== CHAT / NACHRICHTEN ========== */
+.chat-section, .message-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f5f7ff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.chat-section h4, .message-section h3 {
+    color: #2a5d9f;
+    margin-bottom: 10px;
+}
+
+.message-history {
+    margin-top: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.message {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    display: inline-block;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    background-color: #dce7ff;
+    float: right;
+    clear: both;
+}
+
+.message.received {
+    background-color: #eef5ff;
+    float: left;
+    clear: both;
+}
+
+.message small {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ========== ADMIN-FORM ========== */
+.admin-form select {
+    margin-bottom: 10px;
+}
+
+.admin-form label {
+    font-weight: 600;
+    color: #333;
+}
+
+/* ========== ZUGEWIESENE PERSONEN ========== */
+.assigned {
+    background: #e6f9eb;
+    border-left: 4px solid #0a7f1c;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.not-assigned {
+    background: #fdeaea;
+    border-left: 4px solid #b30000;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .message {
+        max-width: 100%;
+    }
+}

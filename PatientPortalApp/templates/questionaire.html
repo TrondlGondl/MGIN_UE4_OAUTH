@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Fragebogen</h2>
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% else %}
+    <form method="post">
+        {% csrf_token %}
+        
+        {% for question in template.questions %}
+            <div style="margin-bottom: 20px;">
+                <p><strong>{{ forloop.counter }}. {{ question.question }}</strong></p>
+                
+                {% for answer in question.answers %}
+                    <label style="display:block; margin-left:20px;">
+                        <input type="radio" 
+                               name="question_{{ forloop.parentloop.counter0 }}" 
+                               value="{{ answer }}" 
+                               required>
+                        {{ answer }}
+                    </label>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Fragebogen absenden</button>
+    </form>
+{% endif %}
+
+{% endblock content %}

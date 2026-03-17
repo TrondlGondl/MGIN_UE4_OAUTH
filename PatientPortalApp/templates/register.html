@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <form method="post">
+        {% csrf_token %}
+
+        <input type="email" name="email" placeholder="Email" required>
+
+        <input type="text" name="username" placeholder="Benutzername" required>
+
+        <input type="password" name="password" placeholder="Passwort" required>
+
+        <input type="text" name="svnr" placeholder="SVNR" required>
+
+        <input type="text" name="given_name" placeholder="Vorname" required>
+
+        <input type="text" name="family_name" placeholder="Nachname" required>
+
+        <select name="gender" required>
+            <option value="">Geschlecht wählen</option>
+            <option value="male">Männlich</option>
+            <option value="female">Weiblich</option>
+            <option value="other">Andere</option>
+            <option value="unknown">Unbekannt</option>
+        </select>
+
+        <input type="datetime-local" name="birthday" id="birthday" value="{{ patient.birthday|date:'Y-m-d\TH:i' }}" required/>
+
+        <input type="text" name="address_line" placeholder="Adresse">
+        <input type="text" name="address_city" placeholder="Stadt">
+        <input type="text" name="address_postalcode" placeholder="Postleitzahl">
+        <input type="text" name="address_country" placeholder="Land">
+
+        <input type="submit" value="Registrieren">
+    </form>
+
+    <div>{{ registration_status }}</div>
+</div>
+
+{% endblock content %}
