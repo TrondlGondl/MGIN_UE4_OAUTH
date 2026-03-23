@@ -30,7 +30,7 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
             else:
                 username = f"oidc_user_{sociallogin.account.uid}"
 
-        # Bei Kollision Username eindeutig machen
+    
         base_username = username
         counter = 1
         while User.objects.filter(username=username).exclude(pk=user.pk).exists():
@@ -42,7 +42,7 @@ class MySocialAccountAdapter(DefaultSocialAccountAdapter):
         user.first_name = first_name
         user.last_name = last_name
 
-        # Ganz wichtig für deine Aufgabe:
+       
         user.is_active = False
 
         user.save()

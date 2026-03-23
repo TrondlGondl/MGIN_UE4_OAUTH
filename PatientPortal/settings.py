@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,9 +147,11 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-AZURE_CLIENT_ID = os.environ.get("AZURE_CLIENT_ID")
-AZURE_CLIENT_SECRET = os.environ.get("AZURE_CLIENT_SECRET")
-AZURE_TENANT_ID = os.environ.get("AZURE_TENANT_ID")
+load_dotenv()
+AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
+AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
+AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
+
 
 SOCIALACCOUNT_PROVIDERS = {
     "openid_connect": {
